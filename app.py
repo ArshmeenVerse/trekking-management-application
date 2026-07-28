@@ -4,6 +4,7 @@ from create_admin import create_admin
 from routes.auth import auth_bp
 from routes.admin import admin_bp
 from routes.staff import staff_bp
+from routes.user import user_bp
 
 app = Flask(__name__)   
 app.secret_key = "my-super-secret-key"
@@ -19,7 +20,7 @@ with app.app_context():
 app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp, url_prefix="/admin")
 app.register_blueprint(staff_bp, url_prefix="/staff")
-
+app.register_blueprint(user_bp, url_prefix="/user")
 if __name__ == "__main__":
     app.run(debug=True)
         

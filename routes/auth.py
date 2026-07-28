@@ -9,33 +9,43 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        user = User.query.filter_by(email=email, password=password).first()
-        if user is None:
-            return "Invalid email ."
-        
-        if user.password != password:
-            return "Invalid password."
-        
-        if user.role == "staff":
-            if user.staff_profile.approval_status != "Approved":
-                return "Waiting for admin approval."
+        user = User.query.filter_by(email=email).first()
 
-            if user.role == "staff":
-                session["user_id"] = user.id
-                session["user_role"] = user.role
-                return redirect(url_for("auth.staff_dashboard"))
+        if user is None:
+            return "Invalid email or password."
+
+        if user.password != password:
+            return "Invalid email or password."
         
-        elif user.role == "Admin":
+        if user.role == "staff" and user.staff_profile.approval_status != "approved":
+            return "Waiting for admin approval."
+
+
+        if user.role == "staff":
             session["user_id"] = user.id
             session["user_role"] = user.role
-            return redirect(url_for("auth.admin_dashboard"))
+            return redirect(url_for("staff.dashboard"))
+        
+        elif user.role == "admin":
+            session["user_id"] = user.id
+            session["user_role"] = user.role
+            return redirect(url_for("admin.dashboard"))
         
         elif user.role == "trekker":
             session["user_id"] = user.id
             session["user_role"] = user.role    
-            return redirect(url_for("auth.user_dashboard"))
+            return redirect(url_for("user.dashboard"))
         
     return render_template("auth/login.html")
+
+
+@auth_bp.route("/logout")
+def logout():
+
+    session.clear()
+    return redirect(url_for("auth.login"))
+
+
 
 @auth_bp.route("/register")
 def register():
@@ -86,16 +96,3 @@ def register_staff():
         return redirect(url_for("auth.login"))
     return render_template("auth/register_staff.html")
 
-@auth_bp.route("/admin/dashboard")
-def admin_dashboard():
-    return "Admin Dashboard"
-
-
-@auth_bp.route("/staff/dashboard")
-def staff_dashboard():
-    return "Staff Dashboard"
-
-
-@auth_bp.route("/user/dashboard")
-def user_dashboard():
-    return "User Dashboard"
