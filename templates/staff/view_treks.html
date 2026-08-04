@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Assigned Treks</title>
+</head>
+<body>
+    <h1>Assigned Treks</h1>
+    <table border="1" cellpadding="8" >
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Difficulty</th>
+            <th>Duration</th>
+            <th>Available Slots</th>
+            <th>Status</th>
+            <th>Participants</th>
+            <th>Action</th>
+        </tr>
+
+        {% for trek in assigned_treks %}
+
+        <tr>
+
+            <td>{{ trek.id }}</td>
+
+            <td>{{ trek.name }}</td>
+
+            <td>{{ trek.location }}</td>
+
+            <td>{{ trek.difficulty }}</td>
+
+            <td>{{ trek.duration }}</td>
+
+            <td>{{ trek.available_slots }}</td>
+
+            <td>{{ trek.status }}</td>
+
+            <td>{{ trek.bookings|length }}</td>
+
+            <td>
+                <a href="{{ url_for('staff.update_trek', trek_id=trek.id) }}">Update Trek</a>
+            <br><br>
+                <a href="{{ url_for('staff.view_participants', trek_id=trek.id) }}">View Participants</a>
+
+            </td>
+
+        </tr>
+
+        {% else %}
+
+        <tr>
+
+            <td colspan="9">
+                No assigned treks found.
+            </td>
+
+        </tr>
+
+        {% endfor %}
+    </table>
+    <br>
+    <a href="{{ url_for('staff.staff_dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

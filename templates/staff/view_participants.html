@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Participants</title>
+</head>
+<body>
+    <h1>{{ trek.name }} - Participants</h1>
+    <table border="1">
+        <tr>
+            <th>User ID</th>
+            <th> Name</th>
+            <th> Email</th>
+            <th>Booking Date</th>
+            <th>Status</th>
+        </tr>
+        {% for booking in trek.bookings %}
+        <tr>
+            <td>{{ booking.user.id }}</td>
+            <td>{{ booking.user.name }}</td>
+            <td>{{ booking.user.email }}</td>
+            <td>{{ booking.booking_date }}</td>
+            <td>{{ booking.booking_status }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5">No participants found for this trek.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="{{ url_for('staff.view_assigned_treks') }}">Back to Assigned Treks</a>
+    
+</body>
+</html>

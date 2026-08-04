@@ -27,7 +27,7 @@ def login():
         if user.role == "staff":
             session["user_id"] = user.id
             session["user_role"] = user.role
-            return redirect(url_for("staff.dashboard"))
+            return redirect(url_for("staff.staff_dashboard"))
         
         elif user.role == "admin":
             session["user_id"] = user.id
