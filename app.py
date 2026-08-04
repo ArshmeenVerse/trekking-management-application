@@ -21,6 +21,7 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp, url_prefix="/admin")
 app.register_blueprint(staff_bp, url_prefix="/staff")
 app.register_blueprint(user_bp, url_prefix="/user")
+
 if __name__ == "__main__":
     app.run(debug=True)
         

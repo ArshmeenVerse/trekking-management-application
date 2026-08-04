@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Bookings</title>
+</head>
+<body>
+    <h1>All Bookings</h1>
+    <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+    <br><br>
+    <table border="1">
+        <tr>
+            <th>Booking ID</th>
+            <th>User </th>
+            <th>Trek</th>
+            <th>Booking Date</th>   
+            <th>Status</th>
+        </tr>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.id }}</td>
+            <td>{{ booking.user.name }}</td>
+            <td>{{ booking.trek.name }}</td>
+            <td>{{ booking.booking_date }}</td>
+            <td>{{ booking.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -16,6 +16,9 @@ def login():
 
         if user.password != password:
             return "Invalid email or password."
+
+        if not user.is_active:
+            return "Your account is blocked by the admin."
         
         if user.role == "staff" and user.staff_profile.approval_status != "approved":
             return "Waiting for admin approval."

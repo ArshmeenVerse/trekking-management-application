@@ -7,6 +7,20 @@
 </head>
 <body>
     <h1>Admin Dashboard</h1>
+    <a href="{{ url_for('admin.create_trek') }}">Create Trek</a><br>
+    <a href="{{ url_for('admin.view_treks') }}">View all treks</a><br>
+    <a href="{{ url_for('admin.view_staff') }}">View Staff</a><br>
+    <a href="{{ url_for('admin.view_users') }}">View Users</a><br>
+    <a href="{{ url_for('admin.view_bookings') }}">View Bookings</a>
     
+    <br><br>
+
+    <hr>
+
+    <h3>Total Treks : {{ total_treks }}</h3>
+    <h3>Total Bookings : {{ total_bookings }}</h3>
+    <h3>Total Users : {{ total_users }}</h3>
+    <h3>Total Staff : {{ total_staff }}</h3>
+
 </body>
 </html>

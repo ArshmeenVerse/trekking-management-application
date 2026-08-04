@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Staff</title>
+</head>
+
+<body>
+
+<h1>All Staff Members</h1>
+
+<a href="{{ url_for('admin.dashboard') }}">
+    Dashboard
+</a>
+
+<br><br>
+<form method="GET">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Search Staff by Name or ID"
+        value="{{ search }}">
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+<br>
+
+<table border="1">
+
+<tr>
+
+    <th>ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Contact Number</th>
+    <th>Approval Status</th>
+    <th>Action</th>
+
+</tr>
+
+{% for staff in staffs %}
+
+<tr>
+
+    <td>{{ staff.id }}</td>
+
+    <td>{{ staff.user.name }}</td>
+
+    <td>{{ staff.user.email }}</td>
+
+    <td>{{ staff.contact_number }}</td>
+
+    <td>{{ staff.approval_status }}</td>
+
+    <td>
+    {% if staff.approval_status == "Pending" %}
+
+    <a href="{{ url_for('admin.approve_staff', staff_id=staff.id) }}"> Approve </a> |
+    <a href="{{ url_for('admin.reject_staff', staff_id=staff.id) }}"> Reject</a>
+
+    {% else %}
+
+    {{ staff.approval_status }}
+
+    {% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>

@@ -13,9 +13,7 @@ class User(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    staff_profile = db.relationship("StaffProfile", back_populates="user", uselist=False)
-    assigned_treks = db.relationship("Trek", back_populates="staff")
-    bookings = db.relationship("Booking", back_populates="user")
+    
 
 class StaffProfile(db.Model):
     __tablename__ = "staff_profile"
@@ -23,9 +21,9 @@ class StaffProfile(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     contact_number = db.Column(db.String(15), nullable=False)
     approval_status = db.Column(db.String(20), default="Pending")
-    assigned_trek_count = db.Column(db.Integer, default=0)
+    
 
-    user = db.relationship("User", back_populates="staff_profile")
+    user = db.relationship("User", backref=db.backref("staff_profile", uselist=False))
 
 class Trek(db.Model):
     __tablename__ = "trek"
@@ -41,8 +39,7 @@ class Trek(db.Model):
     end_date = db.Column(db.Date, nullable=False)
     status = db.Column(db.String(20), default="Upcoming")
 
-    staff = db.relationship("User", back_populates="assigned_treks")
-    bookings = db.relationship("Booking", back_populates="trek")
+    assigned_staff = db.relationship("User", backref="assigned_treks")
 
 class Booking(db.Model):
     __tablename__ = "booking"
@@ -53,6 +50,6 @@ class Booking(db.Model):
     booking_date = db.Column(db.Date, nullable=False)
     booking_status = db.Column(db.String(20), default="Confirmed")
 
-    user = db.relationship("User", back_populates="bookings")
-    trek = db.relationship("Trek", back_populates="bookings")
+    user = db.relationship("User", backref="bookings")
+    trek = db.relationship("Trek", backref="bookings")
 

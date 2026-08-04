@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Users</title>
+</head>
+<body>
+    <h1>All Trekkers</h1>
+    <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+    <br><br>
+    <form method="GET">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Search User by Name or ID"
+        value="{{ search }}">
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+<br>
+    <table border="1">
+
+<tr>
+
+    <th>ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Status</th>
+    <th>Action</th>
+
+</tr>
+
+{% for user in users %}
+
+<tr>
+
+    <td>{{ user.id }}</td>
+
+    <td>{{ user.name }}</td>
+
+    <td>{{ user.email }}</td>
+
+    <td>
+        {% if user.is_active %}
+            Active
+        {% else %}
+            Blocked
+        {% endif %}
+    </td>
+    <td>
+        {% if user.is_active %}
+            <a href="{{ url_for('admin.block_user', user_id=user.id) }}">Block</a>
+        {% else %}
+            <a href="{{ url_for('admin.activate_user', user_id=user.id) }}">Activate</a>
+        {% endif %}
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+</body>
+</html>

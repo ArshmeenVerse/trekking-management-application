@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Treks</title>
+</head>
+<body>
+    <h1>All Treks</h1>
+    <form method="GET">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Search Trek by Name or ID"
+        value="{{ search }}">
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+<br>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Difficulty</th>
+            <th>Duration</th>
+            <th>Available Slots</th>
+            <th>Status</th>
+            <th>Action</th>
+            <th>Assign Staff</th>
+
+        </tr>
+
+        {% for trek in treks %}
+
+        <tr>
+            <td>{{ trek.id }}</td>
+            <td>{{ trek.name }}</td>
+            <td>{{ trek.location }}</td>
+            <td>{{ trek.difficulty }}</td>
+            <td>{{ trek.duration }}</td>
+            <td>{{ trek.available_slots }}</td>
+            <td>{{ trek.status }}</td>
+            <td>
+                <a href="{{ url_for('admin.edit_trek', trek_id=trek.id) }}">Edit</a> |
+                <a href="{{ url_for('admin.delete_trek', trek_id=trek.id) }} "onclick="return confirm('Are you sure you want to delete this trek?')">Delete</a> |
+                <a href="{{ url_for('admin.assign_staff', trek_id=trek.id)}}">Assign Staff</a>
+            </td>
+            <td>
+                {% if trek.assigned_staff %}
+                    {{ trek.assigned_staff.name }}
+                {% else %}
+                    Not Assigned
+                {% endif %}
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+    <br>
+
+    <a href="{{ url_for('admin.dashboard') }}"> Back to Dashboard</a>
+    
+</body>
+</html>
