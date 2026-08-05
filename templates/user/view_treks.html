@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Treks</title>
+</head>
+<body>
+    <h1>Available Treks</h1>
+    <form method="GET">
+
+    Search :
+    <input type="text" name="search" value="{{ search }}">
+    <br><br>
+
+    Difficulty :
+
+    <select name="difficulty">
+
+        <option value="">All</option>
+
+        <option value="Easy"
+        {% if difficulty=="Easy" %}
+        selected
+        {% endif %}>Easy</option>
+
+        <option value="Moderate"
+        {% if difficulty=="Moderate" %}
+        selected
+        {% endif %}>Moderate</option>
+
+        <option value="Hard"
+        {% if difficulty=="Hard" %}
+        selected
+        {% endif %}>Hard</option>
+       
+    </select>
+
+    <br><br>
+
+    Location
+
+    <input
+        type="text"
+        name="location"
+        value="{{ location }}">
+
+    <br><br>
+
+    <button type="submit">Search</button>
+
+</form>
+
+<hr>
+
+<table border="1" cellpadding="8">
+
+<tr>
+
+    <th>ID</th>
+    <th>Name</th>
+    <th>Location</th>
+    <th>Difficulty</th>
+    <th>Duration</th>
+    <th>Slots</th>
+    <th>Status</th>
+    <th>Action</th>
+
+</tr>
+
+{% for trek in treks %}
+
+<tr>
+
+    <td>{{ trek.id }}</td>
+    <td>{{ trek.name }}</td>
+    <td>{{ trek.location }}</td>
+    <td>{{ trek.difficulty }}</td>
+    <td>{{ trek.duration }}</td>
+    <td>{{ trek.available_slots }}</td>
+    <td>{{ trek.status }}</td>
+    <td>
+        <a href="{{ url_for('user.book_trek', trek_id=trek.id) }}">Book Trek</a>
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="{{ url_for('user.dashboard') }}">
+Back
+</a>
+
+</body>
+</html>

@@ -7,5 +7,13 @@
 </head>
 <body>
     <h1>User Dashboard</h1>
+    <p>Available Open Treks: {{ total_open }}</p>
+    <p>My total bookings: {{ total_bookings }}</p>
+    <hr>
+    <a href="{{ url_for('user.view_treks') }}">View Available Treks</a><br><br>
+    <a href="{{ url_for('user.view_my_bookings') }}">View My Bookings</a><br><br>
+    <a href="{{ url_for('user.profile') }}">View Profile</a><br><br>
+    <a href="{{ url_for('user.history') }}">View Trekking History</a><br><br>
+    <a href="{{ url_for('auth.logout') }}">Logout</a>
 </body>
 </html>

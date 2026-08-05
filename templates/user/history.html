@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+</head>
+<body>
+    <h1>Trekking History</h1>
+    <table border="1" cellpadding="8">
+
+<tr>
+    <th>Trek</th>
+    <th>Location</th>
+    <th>Booking Date</th>
+    <th>Status</th>
+</tr>
+
+{% for booking in bookings %}
+
+<tr>
+    <td>{{ booking.trek.name }}</td>
+    <td>{{ booking.trek.location }}</td>
+    <td>{{ booking.booking_date }}</td>
+    <td>{{ booking.booking_status }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="{{ url_for('user.dashboard') }}">Back</a>
+
+</body>
+</html>
