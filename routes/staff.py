@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask import render_template
 from flask import session
-from flask import redirect, url_for, request
+from flask import redirect, url_for, request, flash 
 from models import Trek, Booking, User, db
 
 staff_bp = Blueprint("staff", __name__)
@@ -20,7 +20,20 @@ def staff_dashboard():
     staff_id = session.get("user_id")
     assigned_treks = Trek.query.filter_by(assigned_staff_id=staff_id).all()
 
-    return render_template("staff/dashboard.html", assigned_treks=assigned_treks, Booking=Booking)
+    total_assigned = len(assigned_treks)
+    total_participants = Booking.query.join(Trek).filter(
+        Trek.assigned_staff_id == staff_id,
+        Booking.booking_status == "Booked",
+        Trek.status.in_(["Open", "Ongoing"])
+    ).count()
+    total_open = sum(1 for trek in assigned_treks if trek.status == "Open")
+
+    return render_template(
+        "staff/dashboard.html",
+        total_assigned=total_assigned,
+        total_participants=total_participants,
+        total_open=total_open
+    )
 
 @staff_bp.route("/treks")
 def view_assigned_treks():
@@ -32,11 +45,11 @@ def view_assigned_treks():
 
     staff_id = session.get("user_id")
     assigned_treks = Trek.query.filter_by(assigned_staff_id=staff_id).all()
-    return render_template("staff/view_treks.html", assigned_treks=assigned_treks, Booking=Booking)
+    return render_template("staff/view_treks.html", assigned_treks=assigned_treks)
 
 
-@staff_bp.route("/update-trek/<int:trek_id>", methods=["GET", "POST"])
-def update_trek(trek_id):
+@staff_bp.route("/manage-trek/<int:trek_id>", methods=["GET", "POST"])
+def manage_trek(trek_id):
     if "user_id" not in session:
         return redirect(url_for("auth.login"))
 
@@ -45,34 +58,64 @@ def update_trek(trek_id):
 
     trek = Trek.query.get_or_404(trek_id)
 
-    
     if trek.assigned_staff_id != session.get("user_id"):
         return "Unauthorized", 403
 
     if request.method == "POST":
-        trek.available_slots = request.form.get("available_slots")
+        trek.available_slots = int(request.form.get("available_slots"))
         trek.status = request.form.get("status")
+
+        if trek.status == "Completed":
+            for booking in trek.bookings:
+                if booking.booking_status == "Booked":
+                    booking.booking_status = "Completed"
+
         db.session.commit()
-        return redirect(url_for("staff.view_assigned_treks"))
 
-    return render_template("staff/update_trek.html", trek=trek)
+        flash("Trek updated successfully.", "success")
+        return redirect(url_for("staff.manage_trek", trek_id=trek.id))
 
+    bookings = Booking.query.filter_by(trek_id=trek_id).all()
 
-@staff_bp.route("/participants/<int:trek_id>")
-def view_participants(trek_id):
+    all_statuses = ["Open", "Ongoing", "Closed", "Completed"]
+    next_statuses = [s for s in all_statuses if s != trek.status]
+
+    return render_template(
+        "staff/manage_trek.html",
+        trek=trek,
+        bookings=bookings,
+        next_statuses=next_statuses
+    )
+
+@staff_bp.route("/profile", methods=["GET", "POST"])
+def profile():
+
     if "user_id" not in session:
         return redirect(url_for("auth.login"))
 
     if session.get("user_role") != "staff":
         return "Unauthorized", 403
 
-    trek = Trek.query.get_or_404(trek_id)
+    user = User.query.get_or_404(session["user_id"])
 
-    if trek.assigned_staff_id != session.get("user_id"):
-        return "Unauthorized", 403
+    if request.method == "POST":
 
-    bookings = Booking.query.filter_by(trek_id=trek_id).all()
+        name = request.form.get("name")
+        new_email = request.form.get("email")
+        phone = request.form.get("phone")
 
-    return render_template("staff/view_participants.html", trek=trek, bookings=bookings)
+        existing_user = User.query.filter_by(email=new_email).first()
+        if existing_user and existing_user.id != user.id:
+            flash("Email already exists.", "danger")
+            return redirect(url_for("staff.profile"))
 
-    
+        user.name = name
+        user.email = new_email
+        user.phone = phone
+
+        db.session.commit()
+
+        flash("Profile updated successfully.", "success")
+        return redirect(url_for("staff.staff_dashboard"))
+
+    return render_template("staff/profile.html", user=user)

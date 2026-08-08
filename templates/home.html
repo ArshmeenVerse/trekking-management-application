@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<div class="row align-items-center my-5">
+
+    <!-- Left Side -->
+    <div class="col-lg-6">
+
+        <h1 class="display-4 fw-bold">
+            Trekking Management Application
+        </h1>
+
+        <p class="lead mt-3">
+            Explore scenic treks, book your adventure, and manage every trekking activity through one simple platform.
+        </p>
+
+        <p>
+            This application allows trekkers to explore and book treks,
+            trek staff to manage assigned treks, and administrators to
+            efficiently manage the entire trekking system.
+        </p>
+
+        <div class="mt-4">
+
+            <a href="{{ url_for('auth.login') }}"
+               class="btn btn-primary me-2">
+                Login
+            </a>
+
+            <a href="{{ url_for('auth.register') }}"
+               class="btn btn-outline-primary">
+                Register
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Right Side -->
+    <div class="col-lg-6 text-center mt-4 mt-lg-0">
+
+        <img src="{{ url_for('static', filename='images/trek.jpg') }}"
+            class="img-fluid rounded shadow-sm"
+            alt="Trekking">
+
+    </div>
+
+</div>
+
+<hr class="my-5">
+
+<h2 class="text-center mb-4">
+    Why Choose Our Application?
+</h2>
+
+<div class="row g-4">
+
+    <div class="col-md-4">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h4>🥾 Explore Treks</h4>
+
+                <p>
+                    Browse available treks based on
+                    location and difficulty.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h4>📅 Easy Booking</h4>
+
+                <p>
+                    Book your preferred trek quickly
+                    and manage your bookings.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h4>👨‍💼 Trek Management</h4>
+
+                <p>
+                    Admins and trek staff can manage
+                    treks efficiently.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

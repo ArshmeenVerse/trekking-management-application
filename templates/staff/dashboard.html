@@ -1,37 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Dashboard</title>
-</head>
-<body>
-    <h1>Staff Dashboard</h1>
-    <h3>Assigned Treks</h3>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Participants</th>
-            
-        </tr>
-        {% for trek in assigned_treks %}
-        <tr>
-            <td>{{ trek.id }}</td>
-            <td>{{ trek.name }}</td>
-            <td>{{ trek.bookings|length }}</td>
-            
-            
-        </tr>
-        {%else%}
-            <tr>
-                <td colspan="3">No assigned treks found.</td>
-            </tr>
-        {% endfor %}
-    </table>
-    <br>
-    <a href="{{ url_for('staff.view_assigned_treks') }}">View Assigned Treks</a>
-    <br><br>
-    <a href="{{ url_for('auth.logout') }}">Logout</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+Staff Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2 class="mb-0">
+        Staff Dashboard
+    </h2>
+
+</div>
+
+
+<!-- Statistics -->
+
+<div class="row mb-4">
+
+    <div class="col-md-4 mb-3">
+
+        <div class="card shadow-sm text-center">
+
+            <div class="card-body">
+
+                <h5>Assigned Treks</h5>
+
+                <h2 class="text-primary">
+                    {{ total_assigned }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4 mb-3">
+
+        <div class="card shadow-sm text-center">
+
+            <div class="card-body">
+
+                <h5>Total Participants</h5>
+
+                <h2 class="text-primary">
+                    {{ total_participants }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-4 mb-3">
+
+        <div class="card shadow-sm text-center">
+
+            <div class="card-body">
+
+                <h5>Open Treks</h5>
+
+                <h2 class="text-primary">
+                    {{ total_open }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,19 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-</head>
-<body>
-    <h1>User Dashboard</h1>
-    <p>Available Open Treks: {{ total_open }}</p>
-    <p>My total bookings: {{ total_bookings }}</p>
-    <hr>
-    <a href="{{ url_for('user.view_treks') }}">View Available Treks</a><br><br>
-    <a href="{{ url_for('user.view_my_bookings') }}">View My Bookings</a><br><br>
-    <a href="{{ url_for('user.profile') }}">View Profile</a><br><br>
-    <a href="{{ url_for('user.history') }}">View Trekking History</a><br><br>
-    <a href="{{ url_for('auth.logout') }}">Logout</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+User Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2 class="mb-0">
+        User Dashboard
+    </h2>
+
+</div>
+
+
+<!-- Statistics -->
+
+<div class="row mb-4">
+
+    <div class="col-md-6 mb-3">
+
+        <div class="card shadow-sm text-center">
+
+            <div class="card-body">
+
+                <h5>Available Open Treks</h5>
+
+                <h2 class="text-primary">
+                    {{ total_open }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6 mb-3">
+
+        <div class="card shadow-sm text-center">
+
+            <div class="card-body">
+
+                <h5>My Bookings</h5>
+
+                <h2 class="text-primary">
+                    {{ total_bookings }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

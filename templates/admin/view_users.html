@@ -1,70 +1,167 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Users</title>
-</head>
-<body>
-    <h1>All Trekkers</h1>
-    <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
-    <br><br>
-    <form method="GET">
+{% extends "base.html" %}
 
-    <input
-        type="text"
-        name="search"
-        placeholder="Search User by Name or ID"
-        value="{{ search }}">
+{% block title %}
+Manage Users
+{% endblock %}
 
-    <button type="submit">
-        Search
-    </button>
+{% block content %}
 
-</form>
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-<br>
-    <table border="1">
+    <h2 class="mb-0">
+        Manage Trekkers
+    </h2>
 
-<tr>
+    <a href="{{ url_for('admin.dashboard') }}"
+       class="btn btn-outline-secondary">
+        Dashboard
+    </a>
 
-    <th>ID</th>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Status</th>
-    <th>Action</th>
+</div>
 
-</tr>
+<!-- Search -->
 
-{% for user in users %}
+<div class="card shadow-sm mb-4">
 
-<tr>
+    <div class="card-body">
 
-    <td>{{ user.id }}</td>
+        <form method="GET">
 
-    <td>{{ user.name }}</td>
+            <div class="row">
 
-    <td>{{ user.email }}</td>
+                <div class="col-md-10 mb-2">
 
-    <td>
-        {% if user.is_active %}
-            Active
-        {% else %}
-            Blocked
-        {% endif %}
-    </td>
-    <td>
-        {% if user.is_active %}
-            <a href="{{ url_for('admin.block_user', user_id=user.id) }}">Block</a>
-        {% else %}
-            <a href="{{ url_for('admin.activate_user', user_id=user.id) }}">Activate</a>
-        {% endif %}
-    </td>
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search by User ID or Name"
+                        value="{{ search }}">
 
-</tr>
+                </div>
 
-{% endfor %}
+                <div class="col-md-2 mb-2">
 
-</table>
-</body>
-</html>
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100">
+                        Search
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- Users Table -->
+
+<div class="card shadow-sm">
+
+    <div class="card-header bg-primary text-white">
+
+        <h5 class="mb-0">
+            Trekker List
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-primary">
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for user in users %}
+
+                    <tr>
+
+                        <td>{{ user.id }}</td>
+
+                        <td>{{ user.name }}</td>
+
+                        <td>{{ user.email }}</td>
+
+                        <td>
+
+                            {% if user.is_active %}
+
+                                <span class="badge bg-success">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+                                    Blocked
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if user.is_active %}
+
+                                <a href="{{ url_for('admin.block_user', user_id=user.id) }}"
+                                   class="btn btn-danger btn-sm">
+                                    Block
+                                </a>
+
+                            {% else %}
+
+                                <a href="{{ url_for('admin.activate_user', user_id=user.id) }}"
+                                   class="btn btn-success btn-sm">
+                                    Activate
+                                </a>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="5" class="text-center">
+                            No users found.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

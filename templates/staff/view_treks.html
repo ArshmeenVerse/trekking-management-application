@@ -1,67 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Assigned Treks</title>
-</head>
-<body>
-    <h1>Assigned Treks</h1>
-    <table border="1" cellpadding="8" >
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Difficulty</th>
-            <th>Duration</th>
-            <th>Available Slots</th>
-            <th>Status</th>
-            <th>Participants</th>
-            <th>Action</th>
-        </tr>
+{% extends "base.html" %}
 
-        {% for trek in assigned_treks %}
+{% block title %}
+My Treks
+{% endblock %}
 
-        <tr>
+{% block content %}
 
-            <td>{{ trek.id }}</td>
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-            <td>{{ trek.name }}</td>
+    <h2 class="mb-0">
+        My Assigned Treks
+    </h2>
 
-            <td>{{ trek.location }}</td>
+    <a href="{{ url_for('staff.staff_dashboard') }}"
+       class="btn btn-outline-secondary">
+        Dashboard
+    </a>
 
-            <td>{{ trek.difficulty }}</td>
+</div>
 
-            <td>{{ trek.duration }}</td>
+<div class="card shadow-sm">
 
-            <td>{{ trek.available_slots }}</td>
+    <div class="card-header bg-primary text-white">
 
-            <td>{{ trek.status }}</td>
+        <h5 class="mb-0">
+            Assigned Treks
+        </h5>
 
-            <td>{{ trek.bookings|length }}</td>
+    </div>
 
-            <td>
-                <a href="{{ url_for('staff.update_trek', trek_id=trek.id) }}">Update Trek</a>
-            <br><br>
-                <a href="{{ url_for('staff.view_participants', trek_id=trek.id) }}">View Participants</a>
+    <div class="card-body">
 
-            </td>
+        <div class="table-responsive">
 
-        </tr>
+            <table class="table table-bordered table-hover align-middle">
 
-        {% else %}
+                <thead class="table-primary">
 
-        <tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Difficulty</th>
+                        <th>Duration</th>
+                        <th>Available Slots</th>
+                        <th>Status</th>
+                        <th>Participants</th>
+                        <th>Action</th>
+                    </tr>
 
-            <td colspan="9">
-                No assigned treks found.
-            </td>
+                </thead>
 
-        </tr>
+                <tbody>
 
-        {% endfor %}
-    </table>
-    <br>
-    <a href="{{ url_for('staff.staff_dashboard') }}">Back to Dashboard</a>
-</body>
-</html>
+                {% for trek in assigned_treks %}
+
+                    <tr>
+
+                        <td>{{ trek.id }}</td>
+
+                        <td>{{ trek.name }}</td>
+
+                        <td>{{ trek.location }}</td>
+
+                        <td>{{ trek.difficulty }}</td>
+
+                        <td>{{ trek.duration }} Days</td>
+
+                        <td>{{ trek.available_slots }}</td>
+
+                        <td>
+
+                            {% if trek.status == "Open" %}
+
+                                <span class="badge bg-success">
+                                    Open
+                                </span>
+
+                            {% elif trek.status == "Closed" %}
+
+                                <span class="badge bg-danger">
+                                    Closed
+                                </span>
+
+                            {% elif trek.status == "Completed" %}
+
+                                <span class="badge bg-dark">
+                                    Completed
+                                </span>
+
+                            {% elif trek.status == "Pending" %}
+
+                                <span class="badge bg-warning text-dark">
+                                    Pending
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-primary">
+                                    {{ trek.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-info">
+                                {{ trek.bookings|length }}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('staff.manage_trek', trek_id=trek.id) }}"
+                               class="btn btn-primary btn-sm">
+                                Manage
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="9" class="text-center">
+                            No assigned treks found.
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

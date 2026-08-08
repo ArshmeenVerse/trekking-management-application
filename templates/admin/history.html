@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block title %}
+Trekking History
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2 class="mb-0">
+        Trekking History
+    </h2>
+
+    <a href="{{ url_for('admin.dashboard') }}"
+       class="btn btn-outline-secondary">
+        Dashboard
+    </a>
+
+</div>
+
+<!-- Status Summary -->
+
+<div class="row mb-4">
+
+    <div class="col-md-6 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5>Completed Treks</h5>
+                <h2 class="text-success">{{ completed_count }}</h2>
+
+                <a href="{{ url_for('admin.history', status='Completed') }}"
+                   class="btn btn-outline-success btn-sm">
+                    View
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5>Cancelled Bookings</h5>
+                <h2 class="text-danger">{{ cancelled_count }}</h2>
+
+                <a href="{{ url_for('admin.history', status='Cancelled') }}"
+                   class="btn btn-outline-danger btn-sm">
+                    View
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Filter -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <form method="GET">
+
+            <div class="row">
+
+                <div class="col-md-10 mb-2">
+
+                    <select
+                        name="status"
+                        class="form-select">
+
+                        <option value="All"
+                            {% if status_filter=="All" %}selected{% endif %}>
+                            All
+                        </option>
+
+                        <option value="Completed"
+                            {% if status_filter=="Completed" %}selected{% endif %}>
+                            Completed
+                        </option>
+
+                        <option value="Cancelled"
+                            {% if status_filter=="Cancelled" %}selected{% endif %}>
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-2 mb-2">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100">
+                        Filter
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- History Table -->
+
+<div class="card shadow-sm">
+
+    <div class="card-header bg-primary text-white">
+
+        <h5 class="mb-0">
+            Booking Records
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-primary">
+
+                    <tr>
+
+                        <th>Booking ID</th>
+                        <th>User</th>
+                        <th>Trek</th>
+                        <th>Location</th>
+                        <th>Booking Date</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for booking in bookings %}
+
+                    <tr>
+
+                        <td>{{ booking.id }}</td>
+
+                        <td>{{ booking.user.name }}</td>
+
+                        <td>{{ booking.trek.name }}</td>
+
+                        <td>{{ booking.trek.location }}</td>
+
+                        <td>{{ booking.booking_date }}</td>
+
+<td>
+
+                            {% if booking.booking_status == "Completed" %}
+
+                                <span class="badge bg-success">
+                                    Completed
+                                </span>
+
+                            {% elif booking.booking_status == "Cancelled" %}
+
+                                <span class="badge bg-danger">
+                                    Cancelled
+                                </span>
+
+                            {% elif booking.booking_status == "Booked" and booking.trek.status in ["Open", "Ongoing"] %}
+
+                                <span class="badge bg-primary">
+                                    Booked
+                                </span>
+
+                            {% elif booking.booking_status == "Booked" %}
+
+                                <span class="badge bg-secondary">
+                                    {{ booking.trek.status }}
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+                                    {{ booking.booking_status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="6" class="text-center">
+                            No trekking history available.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
