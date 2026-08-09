@@ -16,7 +16,6 @@ class User(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # Relationships
     staff_profile = db.relationship("StaffProfile", backref="user", uselist=False)
     assigned_treks = db.relationship("Trek", backref="assigned_staff")
     bookings = db.relationship("Booking", backref="user")

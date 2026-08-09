@@ -69,6 +69,7 @@ def trek_details(trek_id):
     return render_template("user/trek_details.html", trek=trek)
 
 
+
 @user_bp.route("/book-trek/<int:trek_id>")
 def book_trek(trek_id): 
     if "user_id" not in session:
@@ -90,7 +91,7 @@ def book_trek(trek_id):
     existing_booking = Booking.query.filter_by(
         user_id=session.get("user_id"),
         trek_id=trek.id
-    ).filter(Booking.booking_status != "Cancelled").first()
+    ).first()
 
     if existing_booking:
         flash("You have already booked this trek.", "warning")
@@ -108,6 +109,7 @@ def book_trek(trek_id):
 
     flash("Trek booked successfully.", "success")
     return redirect(url_for("user.view_my_bookings"))
+
 
 
 

@@ -138,13 +138,10 @@ def edit_trek(trek_id):
             "%Y-%m-%d"
         ).date()
 
-        # The status dropdown in trek_form.html only ever offers the
-        # current status plus the next valid one (Pending -> Approved),
-        # so we can just take it as-is.
+
         trek.status = request.form.get("status")
 
-        # The Assign Staff field only renders in the template once the
-        # trek is Approved or Open, so this is only ever submitted then.
+
         assigned_staff_id = request.form.get("assigned_staff_id")
 
         if assigned_staff_id:
@@ -376,14 +373,18 @@ def history():
 
     status_filter = request.args.get("status", "All")
 
-    query = Booking.query
+    query = Booking.query.join(Trek)
 
-    if status_filter != "All":
-        query = query.filter(Booking.booking_status == status_filter)
+    if status_filter == "Completed":
+        query = query.filter(Booking.booking_status == "Booked", Trek.status == "Completed")
+    elif status_filter == "Cancelled":
+        query = query.filter(Booking.booking_status == "Cancelled")
 
     bookings = query.order_by(Booking.booking_date.desc()).all()
 
-    completed_count = Booking.query.filter_by(booking_status="Completed").count()
+    completed_count = Booking.query.join(Trek).filter(
+        Booking.booking_status == "Booked", Trek.status == "Completed"
+    ).count()
     cancelled_count = Booking.query.filter_by(booking_status="Cancelled").count()
 
     return render_template(

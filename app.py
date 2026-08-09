@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-from models import db
-from create_admin import create_admin
+from models import db, User
+from werkzeug.security import generate_password_hash
 from routes.auth import auth_bp
 from routes.admin import admin_bp
 from routes.staff import staff_bp
@@ -15,16 +15,26 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
-    create_admin()
 
-# Register Blueprints
+    admin = User.query.filter_by(role="admin").first()
+    if admin is None:
+        admin = User(
+            name="admin",
+            email="admin@example.com",
+            phone="1234567890",
+            password=generate_password_hash("admin123", method="pbkdf2:sha256"),
+            role="admin",
+            is_active=True
+        )
+        db.session.add(admin)
+        db.session.commit()
+
 app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp, url_prefix="/admin")
 app.register_blueprint(staff_bp, url_prefix="/staff")
 app.register_blueprint(user_bp, url_prefix="/user")
 
 
-# Home Page
 @app.route("/")
 def home():
     return render_template("home.html")

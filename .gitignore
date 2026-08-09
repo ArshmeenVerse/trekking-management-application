@@ -1,16 +1,16 @@
-# Python
+
 __pycache__/
 *.py[cod]
 
-# Virtual environment
+
 .venv/
 venv/
 
-# Database
+
 instance/
 
-# Environment variables
+
 .env
 
-# macOS
+
 .DS_Store

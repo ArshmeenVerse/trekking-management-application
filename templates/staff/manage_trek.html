@@ -19,7 +19,7 @@ Manage Trek
 
 </div>
 
-<!-- Trek Details -->
+
 
 <div class="card shadow-sm mb-4">
 
@@ -65,7 +65,7 @@ Manage Trek
 
 </div>
 
-<!-- Update Trek -->
+
 
 <div class="card shadow-sm mb-4">
 
@@ -150,7 +150,7 @@ Manage Trek
 
 </div>
 
-<!-- Participants -->
+
 
 <div class="card shadow-sm">
 
@@ -204,22 +204,10 @@ Manage Trek
                                     Booked
                                 </span>
 
-                            {% elif booking.booking_status == "Completed" %}
-
-                                <span class="badge bg-success">
-                                    Completed
-                                </span>
-
-                            {% elif booking.booking_status == "Cancelled" %}
+                            {% else %}
 
                                 <span class="badge bg-danger">
                                     Cancelled
-                                </span>
-
-                            {% else %}
-
-                                <span class="badge bg-secondary">
-                                    {{ booking.booking_status }}
                                 </span>
 
                             {% endif %}

@@ -9,11 +9,10 @@ staff_bp = Blueprint("staff", __name__)
 @staff_bp.route("/dashboard")
 def staff_dashboard():
 
-    # User must be logged in
     if "user_id" not in session:
         return redirect(url_for("auth.login"))
 
-    # User must be a staff member
+
     if session.get("user_role") != "staff":
         return "Unauthorized", 403
 
@@ -64,11 +63,6 @@ def manage_trek(trek_id):
     if request.method == "POST":
         trek.available_slots = int(request.form.get("available_slots"))
         trek.status = request.form.get("status")
-
-        if trek.status == "Completed":
-            for booking in trek.bookings:
-                if booking.booking_status == "Booked":
-                    booking.booking_status = "Completed"
 
         db.session.commit()
 
