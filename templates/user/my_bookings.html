@@ -1,122 +1,88 @@
 {% extends "base.html" %}
 
 {% block title %}
-My Bookings
+My Bookings - Trekking Management
 {% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-    <h2 class="mb-0">
-        My Bookings
-    </h2>
-
-    <a href="{{ url_for('user.dashboard') }}"
-       class="btn btn-outline-secondary">
-        Dashboard
-    </a>
-
+<div class="page-header">
+    <div>
+        <h2 class="page-title">
+            My Bookings
+        </h2>
+        <p class="text-muted mb-0 small">View and manage your trek reservations.</p>
+    </div>
+    <div>
+        <a href="{{ url_for('user.dashboard') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Dashboard
+        </a>
+    </div>
 </div>
 
 <div class="card shadow-sm">
-
-    <div class="card-header bg-primary text-white">
-
-        <h5 class="mb-0">
-            Booking List
-        </h5>
-
+    <div class="card-header bg-white d-flex align-items-center justify-content-between">
+        <span class="fw-bold">Booking List ({{ bookings|length }})</span>
+        <a href="{{ url_for('user.view_treks') }}" class="btn btn-sm btn-primary">
+            Explore More Treks
+        </a>
     </div>
 
-    <div class="card-body">
-
+    <div class="card-body p-0">
         <div class="table-responsive">
-
-            <table class="table table-bordered table-hover align-middle">
-
-                <thead class="table-primary">
-
+            <table class="table align-middle table-hover">
+                <thead>
                     <tr>
-
                         <th>Booking ID</th>
                         <th>Trek</th>
+                        <th>Location</th>
                         <th>Booking Date</th>
                         <th>Status</th>
-                        <th>Location</th>
-                        <th>Action</th>
-
+                        <th class="text-end">Action</th>
                     </tr>
-
                 </thead>
-
                 <tbody>
-
                 {% for booking in bookings %}
-
                     <tr>
-
-                        <td>{{ booking.id }}</td>
-
-                        <td>{{ booking.trek.name }}</td>
-
-                        <td>{{ booking.booking_date }}</td>
-
-                        <td>
-
-                            <span class="badge bg-primary">
-                                Booked
-                            </span>
-
-                        </td>
-
+                        <td class="fw-bold text-muted">#{{ booking.id }}</td>
+                        <td class="fw-bold text-dark">{{ booking.trek.name }}</td>
                         <td>{{ booking.trek.location }}</td>
-
+                        <td>{{ booking.booking_date }}</td>
                         <td>
-
-                            <div class="d-flex flex-wrap gap-2">
-
+                            <span class="badge badge-ongoing">Booked</span>
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group">
                                 <a href="{{ url_for('user.trek_details', trek_id=booking.trek.id) }}"
-                                   class="btn btn-primary btn-sm">
+                                   class="btn btn-outline-primary btn-sm">
                                     View Details
                                 </a>
-
                                 {% if booking.booking_status == "Booked" %}
-
                                     <a href="{{ url_for('user.cancel_booking', booking_id=booking.id) }}"
-                                       class="btn btn-danger btn-sm"
-                                       onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                       class="btn btn-outline-danger btn-sm"
+                                       onclick="return confirm('Are you sure you want to cancel this booking?');">
                                         Cancel
                                     </a>
-
                                 {% endif %}
-
                             </div>
-
                         </td>
-
                     </tr>
-
                 {% else %}
-
                     <tr>
-
-                        <td colspan="6" class="text-center">
-                            You have no bookings yet.
+                        <td colspan="6" class="text-center py-4 text-muted">
+                            You have no active bookings yet.
+                            <div class="mt-2">
+                                <a href="{{ url_for('user.view_treks') }}" class="btn btn-primary btn-sm">
+                                    Browse Treks
+                                </a>
+                            </div>
                         </td>
-
                     </tr>
-
                 {% endfor %}
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
-
 </div>
 
 {% endblock %}

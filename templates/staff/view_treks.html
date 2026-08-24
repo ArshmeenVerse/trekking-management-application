@@ -1,149 +1,101 @@
 {% extends "base.html" %}
 
 {% block title %}
-My Treks
+My Treks - Trekking Management
 {% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-    <h2 class="mb-0">
-        My Assigned Treks
-    </h2>
-
-    <a href="{{ url_for('staff.staff_dashboard') }}"
-       class="btn btn-outline-secondary">
-        Dashboard
-    </a>
-
+<div class="page-header">
+    <div>
+        <h2 class="page-title">
+            My Assigned Treks
+        </h2>
+        <p class="text-muted mb-0 small">Treks assigned to you for guiding and management.</p>
+    </div>
+    <div>
+        <a href="{{ url_for('staff.staff_dashboard') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Dashboard
+        </a>
+    </div>
 </div>
 
 <div class="card shadow-sm">
-
-    <div class="card-header bg-primary text-white">
-
-        <h5 class="mb-0">
-            Assigned Treks
-        </h5>
-
+    <div class="card-header bg-white">
+        <span class="fw-bold">Assigned Treks ({{ assigned_treks|length }})</span>
     </div>
 
-    <div class="card-body">
-
+    <div class="card-body p-0">
         <div class="table-responsive">
-
-            <table class="table table-bordered table-hover align-middle">
-
-                <thead class="table-primary">
-
+            <table class="table align-middle table-hover">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Location</th>
                         <th>Difficulty</th>
                         <th>Duration</th>
-                        <th>Available Slots</th>
+                        <th>Slots</th>
                         <th>Status</th>
                         <th>Participants</th>
-                        <th>Action</th>
+                        <th class="text-end">Action</th>
                     </tr>
-
                 </thead>
-
                 <tbody>
-
                 {% for trek in assigned_treks %}
-
                     <tr>
-
-                        <td>{{ trek.id }}</td>
-
-                        <td>{{ trek.name }}</td>
-
+                        <td class="fw-bold text-muted">#{{ trek.id }}</td>
+                        <td class="fw-bold text-dark">{{ trek.name }}</td>
                         <td>{{ trek.location }}</td>
-
-                        <td>{{ trek.difficulty }}</td>
-
-                        <td>{{ trek.duration }} Days</td>
-
-                        <td>{{ trek.available_slots }}</td>
-
                         <td>
-
-                            {% if trek.status == "Open" %}
-
-                                <span class="badge bg-success">
-                                    Open
-                                </span>
-
-                            {% elif trek.status == "Closed" %}
-
-                                <span class="badge bg-danger">
-                                    Closed
-                                </span>
-
-                            {% elif trek.status == "Completed" %}
-
-                                <span class="badge bg-dark">
-                                    Completed
-                                </span>
-
-                            {% elif trek.status == "Pending" %}
-
-                                <span class="badge bg-warning text-dark">
-                                    Pending
-                                </span>
-
+                            {% if trek.difficulty == "Easy" %}
+                                <span class="badge badge-difficulty-easy">Easy</span>
+                            {% elif trek.difficulty == "Moderate" %}
+                                <span class="badge badge-difficulty-moderate">Moderate</span>
                             {% else %}
-
-                                <span class="badge bg-primary">
-                                    {{ trek.status }}
-                                </span>
-
+                                <span class="badge badge-difficulty-hard">Hard</span>
                             {% endif %}
-
                         </td>
-
+                        <td>{{ trek.duration }} Days</td>
+                        <td>{{ trek.available_slots }}</td>
                         <td>
-
-                            <span class="badge bg-info">
+                            {% if trek.status == "Open" %}
+                                <span class="badge badge-open">Open</span>
+                            {% elif trek.status == "Ongoing" %}
+                                <span class="badge badge-ongoing">Ongoing</span>
+                            {% elif trek.status == "Closed" %}
+                                <span class="badge badge-closed">Closed</span>
+                            {% elif trek.status == "Completed" %}
+                                <span class="badge badge-completed">Completed</span>
+                            {% elif trek.status == "Pending" %}
+                                <span class="badge badge-pending">Pending</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ trek.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border">
                                 {{ trek.bookings|length }}
                             </span>
-
                         </td>
-
-                        <td>
-
+                        <td class="text-end">
                             <a href="{{ url_for('staff.manage_trek', trek_id=trek.id) }}"
                                class="btn btn-primary btn-sm">
                                 Manage
                             </a>
-
                         </td>
-
                     </tr>
-
                 {% else %}
-
                     <tr>
-
-                        <td colspan="9" class="text-center">
+                        <td colspan="9" class="text-center py-4 text-muted">
                             No assigned treks found.
                         </td>
-
                     </tr>
-
                 {% endfor %}
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
-
 </div>
 
 {% endblock %}

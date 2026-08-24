@@ -1,120 +1,226 @@
 {% extends "base.html" %}
 
 {% block title %}
-Home
+Trekking Management Application
 {% endblock %}
 
 {% block content %}
 
-<div class="row align-items-center my-5">
+<!-- Aesthetic Hero Section with Floating Elements -->
+<div class="hero-aesthetic">
+    <div class="row align-items-center g-5">
+        <div class="col-lg-7">
+            <div class="hero-pulse-badge">
+                <span class="pulse-dot"></span>
+                <span>Open Season 2026 &bull; Verified Expeditions</span>
+            </div>
 
-    <div class="col-lg-6">
+            <h1 class="hero-heading">
+                Discover, Book & Manage <span class="text-gradient">Mountain Treks</span>
+            </h1>
 
-        <h1 class="display-4 fw-bold">
-            Trekking Management Application
-        </h1>
+            <p class="hero-subtitle">
+                Explore majestic trails, reserve verified trekking slots, and seamlessly coordinate expedition logistics between adventurers, guides, and organizers.
+            </p>
 
-        <p class="lead mt-3">
-            Explore scenic treks, book your adventure, and manage every trekking activity through one simple platform.
-        </p>
+            <div class="d-flex flex-wrap gap-3 mb-4">
+                {% if session.get("user_id") %}
+                    {% if session.get("user_role") == "admin" %}
+                        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-speedometer2"></i> Admin Dashboard
+                        </a>
+                        <a href="{{ url_for('admin.create_trek') }}" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-plus-circle"></i> Create Trek
+                        </a>
+                    {% elif session.get("user_role") == "staff" %}
+                        <a href="{{ url_for('staff.staff_dashboard') }}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-speedometer2"></i> Staff Portal
+                        </a>
+                        <a href="{{ url_for('staff.view_assigned_treks') }}" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-signpost-2"></i> My Treks
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('user.view_treks') }}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-compass"></i> Explore All Treks
+                        </a>
+                        <a href="{{ url_for('user.view_my_bookings') }}" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-calendar-check"></i> My Bookings
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-backpack"></i> Start Exploring
+                    </a>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-box-arrow-in-right"></i> Member Login
+                    </a>
+                {% endif %}
+            </div>
 
-        <p>
-            This application allows trekkers to explore and book treks,
-            trek staff to manage assigned treks, and administrators to
-            efficiently manage the entire trekking system.
-        </p>
-
-        <div class="mt-4">
-
-            <a href="{{ url_for('auth.login') }}"
-               class="btn btn-primary me-2">
-                Login
-            </a>
-
-            <a href="{{ url_for('auth.register') }}"
-               class="btn btn-outline-primary">
-                Register
-            </a>
-
+            <!-- Quick Metrics Row -->
+            <div class="row g-3 pt-3 border-top">
+                <div class="col-4">
+                    <h4 class="fw-bold mb-0 text-dark">50+</h4>
+                    <span class="text-muted small">Scenic Trails</span>
+                </div>
+                <div class="col-4">
+                    <h4 class="fw-bold mb-0 text-dark">1,200+</h4>
+                    <span class="text-muted small">Happy Trekkers</span>
+                </div>
+                <div class="col-4">
+                    <h4 class="fw-bold mb-0 text-dark">100%</h4>
+                    <span class="text-muted small">Certified Staff</span>
+                </div>
+            </div>
         </div>
 
+        <div class="col-lg-5">
+            <div class="hero-image-wrapper">
+                <!-- Floating top pill -->
+                <div class="hero-floating-card-top text-dark">
+                    <span class="text-warning">★</span> 4.9/5 Explorer Rating
+                </div>
+
+                <img src="{{ url_for('static', filename='images/trek.jpg') }}"
+                     class="hero-img"
+                     alt="Scenic mountain trek">
+
+                <!-- Floating bottom card -->
+                <div class="hero-floating-card">
+                    <div class="stat-icon icon-sky" style="width: 44px; height: 44px; font-size: 1.2rem;">
+                        <i class="bi bi-geo-alt-fill text-primary"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark small">High Altitude Passes</div>
+                        <span class="text-muted" style="font-size: 0.78rem;">Verified Trail Guides</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="col-lg-6 text-center mt-4 mt-lg-0">
-
-        <img src="{{ url_for('static', filename='images/trek.jpg') }}"
-            class="img-fluid rounded shadow-sm"
-            alt="Trekking">
-
-    </div>
-
 </div>
 
-<hr class="my-5">
+<!-- Popular Trail Types Tag Strip -->
+<div class="mb-5">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h5 class="fw-bold mb-0"><i class="bi bi-tags text-primary me-2"></i>Trail Categories</h5>
+        <span class="text-muted small">Handpicked expedition styles</span>
+    </div>
+    <div class="category-pills">
+        <span class="category-pill"><i class="bi bi-tree text-success"></i> Pine Forest Trails</span>
+        <span class="category-pill"><i class="bi bi-snow text-info"></i> Snow & Glacier Passes</span>
+        <span class="category-pill"><i class="bi bi-sunrise text-warning"></i> Sunrise Summits</span>
+        <span class="category-pill"><i class="bi bi-water text-primary"></i> Alpine Lake Treks</span>
+        <span class="category-pill"><i class="bi bi-shield-check text-success"></i> Beginner Friendly</span>
+    </div>
+</div>
 
-<h2 class="text-center mb-4">
-    Why Choose Our Application?
-</h2>
-
-<div class="row g-4">
-
+<!-- 3 Feature Pillars -->
+<div class="row g-4 mb-5">
     <div class="col-md-4">
-
-        <div class="card h-100 shadow-sm">
-
-            <div class="card-body text-center">
-
-                <h4>🥾 Explore Treks</h4>
-
-                <p>
-                    Browse available treks based on
-                    location and difficulty.
-                </p>
-
+        <div class="feature-card">
+            <div class="feature-icon-box">
+                <i class="bi bi-binoculars"></i>
             </div>
-
+            <h5 class="fw-bold mb-2">Explore Scenic Treks</h5>
+            <p class="text-muted small mb-0">
+                Browse detailed routes with elevation, difficulty classifications (Easy, Moderate, Hard), and real-time open slots.
+            </p>
         </div>
-
     </div>
 
     <div class="col-md-4">
-
-        <div class="card h-100 shadow-sm">
-
-            <div class="card-body text-center">
-
-                <h4>📅 Easy Booking</h4>
-
-                <p>
-                    Book your preferred trek quickly
-                    and manage your bookings.
-                </p>
-
+        <div class="feature-card">
+            <div class="feature-icon-box" style="background: var(--accent-sky-light); color: var(--accent-sky);">
+                <i class="bi bi-calendar-check"></i>
             </div>
-
+            <h5 class="fw-bold mb-2">Easy Slot Reservations</h5>
+            <p class="text-muted small mb-0">
+                Reserve your spot instantly with automatic slot deduction, instant booking history, and cancellation management.
+            </p>
         </div>
-
     </div>
 
     <div class="col-md-4">
-
-        <div class="card h-100 shadow-sm">
-
-            <div class="card-body text-center">
-
-                <h4>👨‍💼 Trek Management</h4>
-
-                <p>
-                    Admins and trek staff can manage
-                    treks efficiently.
-                </p>
-
+        <div class="feature-card">
+            <div class="feature-icon-box" style="background: var(--accent-amber-light); color: var(--accent-amber);">
+                <i class="bi bi-person-badge"></i>
             </div>
+            <h5 class="fw-bold mb-2">Staff & Expedition Control</h5>
+            <p class="text-muted small mb-0">
+                Admins and guide staff manage trek progressions, participant rosters, guide approvals, and user accounts.
+            </p>
+        </div>
+    </div>
+</div>
 
+<!-- Testimonials Strip -->
+<div class="mb-5">
+    <div class="text-center mb-4">
+        <span class="badge bg-light text-muted border px-3 py-2 rounded-pill mb-2">COMMUNITY EXPERIENCES</span>
+        <h3 class="fw-bold">What Trekkers Are Saying</h3>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="story-card">
+                <div class="d-flex text-warning mb-2 small">
+                    ★★★★★
+                </div>
+                <p class="small text-muted mb-3">
+                    "The booking process was seamless and finding treks suited for beginners was super clear. Everything went smoothly!"
+                </p>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 32px; height: 32px;">
+                        A
+                    </div>
+                    <div>
+                        <div class="fw-bold small text-dark">Aarav Sharma</div>
+                        <span class="text-muted" style="font-size: 0.75rem;">Himachal Trekker</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </div>
+        <div class="col-md-4">
+            <div class="story-card">
+                <div class="d-flex text-warning mb-2 small">
+                    ★★★★★
+                </div>
+                <p class="small text-muted mb-3">
+                    "Managing participant lists and updating trek status during the trek was effortless from the staff dashboard."
+                </p>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 32px; height: 32px;">
+                        R
+                    </div>
+                    <div>
+                        <div class="fw-bold small text-dark">Rohan Verma</div>
+                        <span class="text-muted" style="font-size: 0.75rem;">Certified Guide</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-md-4">
+            <div class="story-card">
+                <div class="d-flex text-warning mb-2 small">
+                    ★★★★★
+                </div>
+                <p class="small text-muted mb-3">
+                    "Clean, modern interface without unnecessary clutter. Tracked all my upcoming and past treks in one place."
+                </p>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 32px; height: 32px;">
+                        P
+                    </div>
+                    <div>
+                        <div class="fw-bold small text-dark">Pooja Patel</div>
+                        <span class="text-muted" style="font-size: 0.75rem;">Weekend Explorer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

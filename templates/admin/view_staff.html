@@ -1,233 +1,166 @@
 {% extends "base.html" %}
 
 {% block title %}
-Manage Staff
+Manage Staff - Trekking Management
 {% endblock %}
 
 {% block content %}
 
-<h2 class="mb-4">
-    Manage Staff
-</h2>
-
-
-
-<div class="row mb-4">
-
-    <div class="col-md-4 mb-3">
-        <div class="card text-center shadow-sm">
-            <div class="card-body">
-                <h5>Pending</h5>
-                <h2 class="text-warning">{{ pending_count }}</h2>
-
-                <a href="{{ url_for('admin.view_staff', status='Pending') }}"
-                   class="btn btn-outline-warning btn-sm">
-                    View
-                </a>
-            </div>
-        </div>
+<div class="page-header">
+    <div>
+        <h2 class="page-title">
+            Manage Staff
+        </h2>
+        <p class="text-muted mb-0 small">Review staff registrations and manage approval statuses.</p>
     </div>
-
-    <div class="col-md-4 mb-3">
-        <div class="card text-center shadow-sm">
-            <div class="card-body">
-                <h5>Approved</h5>
-                <h2 class="text-success">{{ approved_count }}</h2>
-
-                <a href="{{ url_for('admin.view_staff', status='Approved') }}"
-                   class="btn btn-outline-success btn-sm">
-                    View
-                </a>
-            </div>
-        </div>
+    <div>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Dashboard
+        </a>
     </div>
-
-    <div class="col-md-4 mb-3">
-        <div class="card text-center shadow-sm">
-            <div class="card-body">
-                <h5>Blacklisted</h5>
-                <h2 class="text-danger">{{ blacklisted_count }}</h2>
-
-                <a href="{{ url_for('admin.view_staff', status='Blacklisted') }}"
-                   class="btn btn-outline-danger btn-sm">
-                    View
-                </a>
-            </div>
-        </div>
-    </div>
-
 </div>
 
+<!-- Status Filters -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card justify-content-between">
+            <div>
+                <div class="stat-label">Pending Approval</div>
+                <div class="stat-value text-warning">{{ pending_count }}</div>
+            </div>
+            <a href="{{ url_for('admin.view_staff', status='Pending') }}" class="btn btn-sm btn-outline-secondary">
+                View
+            </a>
+        </div>
+    </div>
 
+    <div class="col-md-4">
+        <div class="stat-card justify-content-between">
+            <div>
+                <div class="stat-label">Approved Staff</div>
+                <div class="stat-value text-success">{{ approved_count }}</div>
+            </div>
+            <a href="{{ url_for('admin.view_staff', status='Approved') }}" class="btn btn-sm btn-outline-secondary">
+                View
+            </a>
+        </div>
+    </div>
 
+    <div class="col-md-4">
+        <div class="stat-card justify-content-between">
+            <div>
+                <div class="stat-label">Blacklisted</div>
+                <div class="stat-value text-danger">{{ blacklisted_count }}</div>
+            </div>
+            <a href="{{ url_for('admin.view_staff', status='Blacklisted') }}" class="btn btn-sm btn-outline-secondary">
+                View
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Search -->
 <div class="card shadow-sm mb-4">
-
-    <div class="card-body">
-
+    <div class="card-body p-3">
         <form method="GET">
-
-            <input type="hidden"
-                   name="status"
-                   value="{{ status_filter }}">
-
-            <div class="row">
-
-                <div class="col-md-10 mb-2">
-
+            <input type="hidden" name="status" value="{{ status_filter }}">
+            <div class="row g-2">
+                <div class="col-md-10">
                     <input
                         type="text"
                         class="form-control"
                         name="search"
-                        placeholder="Search by Staff ID or Name"
+                        placeholder="Search by staff ID, name or email..."
                         value="{{ search }}">
-
                 </div>
-
-                <div class="col-md-2 mb-2">
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary w-100">
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
                         Search
                     </button>
-
                 </div>
-
             </div>
-
         </form>
-
     </div>
-
 </div>
 
-
-
+<!-- Staff Table -->
 <div class="card shadow-sm">
-
-    <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">
-            Staff Members
-        </h5>
+    <div class="card-header bg-white d-flex align-items-center justify-content-between">
+        <span class="fw-bold">Staff Members ({{ staffs|length }})</span>
+        {% if status_filter %}
+            <a href="{{ url_for('admin.view_staff') }}" class="small text-decoration-none">
+                Clear Status Filter
+            </a>
+        {% endif %}
     </div>
 
-    <div class="card-body">
-
+    <div class="card-body p-0">
         <div class="table-responsive">
-
-            <table class="table table-bordered table-hover align-middle">
-
-                <thead class="table-primary">
-
+            <table class="table align-middle table-hover">
+                <thead>
                     <tr>
-
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Status</th>
-                        <th>Action</th>
-
+                        <th class="text-end">Action</th>
                     </tr>
-
                 </thead>
-
                 <tbody>
-
                 {% for staff in staffs %}
-
                     <tr>
-
-                        <td>{{ staff.id }}</td>
-
-                        <td>{{ staff.user.name }}</td>
-
+                        <td class="fw-bold text-muted">#{{ staff.id }}</td>
+                        <td class="fw-bold text-dark">{{ staff.user.name }}</td>
                         <td>{{ staff.user.email }}</td>
-
                         <td>{{ staff.user.phone }}</td>
-
                         <td>
-
                             {% if staff.approval_status == "Pending" %}
-
-                                <span class="badge bg-warning text-dark">
-                                    Pending
-                                </span>
-
+                                <span class="badge badge-pending">Pending</span>
                             {% elif staff.approval_status == "Approved" %}
-
-                                <span class="badge bg-success">
-                                    Approved
-                                </span>
-
+                                <span class="badge badge-open">Approved</span>
                             {% else %}
-
-                                <span class="badge bg-danger">
-                                    Blacklisted
-                                </span>
-
+                                <span class="badge badge-closed">Blacklisted</span>
                             {% endif %}
-
                         </td>
-
-                        <td>
-
-                            <div class="d-flex flex-wrap gap-2">
-
+                        <td class="text-end">
+                            <div class="btn-group">
                             {% if staff.approval_status == "Pending" %}
-
                                 <a href="{{ url_for('admin.approve_staff', staff_id=staff.id) }}"
                                    class="btn btn-success btn-sm">
                                     Approve
                                 </a>
-
                                 <a href="{{ url_for('admin.blacklist_staff', staff_id=staff.id) }}"
-                                   class="btn btn-danger btn-sm">
+                                   class="btn btn-outline-danger btn-sm"
+                                   onclick="return confirm('Are you sure you want to blacklist this staff member?');">
                                     Blacklist
                                 </a>
-
                             {% elif staff.approval_status == "Approved" %}
-
                                 <a href="{{ url_for('admin.blacklist_staff', staff_id=staff.id) }}"
-                                   class="btn btn-danger btn-sm">
+                                   class="btn btn-outline-danger btn-sm"
+                                   onclick="return confirm('Are you sure you want to blacklist this staff member?');">
                                     Blacklist
                                 </a>
-
                             {% else %}
-
                                 <a href="{{ url_for('admin.approve_staff', staff_id=staff.id) }}"
                                    class="btn btn-success btn-sm">
-                                    Approve
+                                    Re-Approve
                                 </a>
-
                             {% endif %}
-
                             </div>
-
                         </td>
-
                     </tr>
-
                 {% else %}
-
                     <tr>
-
-                        <td colspan="6" class="text-center">
+                        <td colspan="6" class="text-center py-4 text-muted">
                             No staff found.
                         </td>
-
                     </tr>
-
                 {% endfor %}
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
-
 </div>
 
 {% endblock %}

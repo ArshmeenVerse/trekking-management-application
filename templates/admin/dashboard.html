@@ -1,89 +1,137 @@
 {% extends "base.html" %}
 
 {% block title %}
-Admin Dashboard
+Admin Dashboard - Trekking Management
 {% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-    <h2 class="mb-0">
-        Admin Dashboard
-    </h2>
-
+<div class="page-header">
+    <div>
+        <h2 class="page-title">
+            Admin Dashboard
+        </h2>
+        <p class="text-muted mb-0 small">Overview of treks, user registrations, bookings, and staff.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('admin.create_trek') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Create Trek
+        </a>
+    </div>
 </div>
 
-
-<div class="row mb-4">
-
-    <div class="col-md-3 mb-3">
-        <div class="card text-center shadow-sm">
-
-            <div class="card-body">
-
-                <h5>Total Treks</h5>
-
-                <h2 class="text-primary">
-                    {{ total_treks }}
-                </h2>
-
+<!-- Stat Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-map"></i>
             </div>
-
+            <div>
+                <div class="stat-value">{{ total_treks }}</div>
+                <div class="stat-label">Total Treks</div>
+            </div>
         </div>
     </div>
 
-
-    <div class="col-md-3 mb-3">
-        <div class="card text-center shadow-sm">
-
-            <div class="card-body">
-
-                <h5>Total Bookings</h5>
-
-                <h2 class="text-primary">
-                    {{ total_bookings }}
-                </h2>
-
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-icon icon-sky">
+                <i class="bi bi-ticket-perforated"></i>
             </div>
-
+            <div>
+                <div class="stat-value">{{ total_bookings }}</div>
+                <div class="stat-label">Total Bookings</div>
+            </div>
         </div>
     </div>
 
-
-    <div class="col-md-3 mb-3">
-        <div class="card text-center shadow-sm">
-
-            <div class="card-body">
-
-                <h5>Total Users</h5>
-
-                <h2 class="text-primary">
-                    {{ total_users }}
-                </h2>
-
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #ecfdf5; color: #059669;">
+                <i class="bi bi-people"></i>
             </div>
-
+            <div>
+                <div class="stat-value">{{ total_users }}</div>
+                <div class="stat-label">Total Trekkers</div>
+            </div>
         </div>
     </div>
 
-
-    <div class="col-md-3 mb-3">
-        <div class="card text-center shadow-sm">
-
-            <div class="card-body">
-
-                <h5>Total Staff</h5>
-
-                <h2 class="text-primary">
-                    {{ total_staff }}
-                </h2>
-
+    <div class="col-md-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-icon icon-amber">
+                <i class="bi bi-person-badge"></i>
             </div>
+            <div>
+                <div class="stat-value">{{ total_staff }}</div>
+                <div class="stat-label">Total Staff</div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Quick Navigation Cards -->
+<div class="row g-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hoverable h-100">
+            <div class="card-body d-flex flex-column text-center p-4">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="bi bi-map"></i>
+                </div>
+                <h5 class="fw-bold mb-1">Manage Treks</h5>
+                <p class="text-muted small mb-3">Create and edit treks, set dates and assigned staff.</p>
+                <a href="{{ url_for('admin.create_trek') }}" class="btn btn-outline-primary btn-sm w-100 mt-auto">
+                    Manage Treks
+                </a>
+            </div>
         </div>
     </div>
 
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hoverable h-100">
+            <div class="card-body d-flex flex-column text-center p-4">
+                <div class="feature-icon mx-auto mb-3" style="background: var(--accent-amber-light); color: var(--accent-amber);">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <h5 class="fw-bold mb-1">Staff Approvals</h5>
+                <p class="text-muted small mb-3">Review staff guide applications and statuses.</p>
+                <a href="{{ url_for('admin.view_staff') }}" class="btn btn-outline-primary btn-sm w-100 mt-auto">
+                    View Staff
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hoverable h-100">
+            <div class="card-body d-flex flex-column text-center p-4">
+                <div class="feature-icon mx-auto mb-3" style="background: var(--accent-sky-light); color: var(--accent-sky);">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h5 class="fw-bold mb-1">Users Directory</h5>
+                <p class="text-muted small mb-3">Manage registered trekker accounts and status.</p>
+                <a href="{{ url_for('admin.view_users') }}" class="btn btn-outline-primary btn-sm w-100 mt-auto">
+                    View Users
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <div class="card card-hoverable h-100">
+            <div class="card-body d-flex flex-column text-center p-4">
+                <div class="feature-icon mx-auto mb-3" style="background: #f1f5f9; color: #475569;">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+                <h5 class="fw-bold mb-1">Trekking History</h5>
+                <p class="text-muted small mb-3">View completed treks and booking logs.</p>
+                <a href="{{ url_for('admin.history') }}" class="btn btn-outline-primary btn-sm w-100 mt-auto">
+                    View History
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

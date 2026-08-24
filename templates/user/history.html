@@ -1,123 +1,72 @@
 {% extends "base.html" %}
 
 {% block title %}
-Trekking History
+Trekking History - Trekking Management
 {% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-    <h2 class="mb-0">
-        Trekking History
-    </h2>
-
-    <a href="{{ url_for('user.dashboard') }}"
-       class="btn btn-outline-secondary">
-        Dashboard
-    </a>
-
+<div class="page-header">
+    <div>
+        <h2 class="page-title">
+            Trekking History
+        </h2>
+        <p class="text-muted mb-0 small">Records of your previous treks and cancelled bookings.</p>
+    </div>
+    <div>
+        <a href="{{ url_for('user.dashboard') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Dashboard
+        </a>
+    </div>
 </div>
 
 <div class="card shadow-sm">
-
-    <div class="card-header bg-primary text-white">
-
-        <h5 class="mb-0">
-            Completed & Previous Bookings
-        </h5>
-
+    <div class="card-header bg-white">
+        <span class="fw-bold">Past Bookings Log</span>
     </div>
 
-    <div class="card-body">
-
+    <div class="card-body p-0">
         <div class="table-responsive">
-
-            <table class="table table-bordered table-hover align-middle">
-
-                <thead class="table-primary">
-
+            <table class="table align-middle table-hover">
+                <thead>
                     <tr>
-
                         <th>Trek</th>
                         <th>Location</th>
                         <th>Booking Date</th>
-                        <th>Status</th>
-
+                        <th class="text-end">Status</th>
                     </tr>
-
                 </thead>
-
                 <tbody>
-
                 {% for booking in bookings %}
-
                     <tr>
-
-                        <td>{{ booking.trek.name }}</td>
-
+                        <td class="fw-bold text-dark">{{ booking.trek.name }}</td>
                         <td>{{ booking.trek.location }}</td>
-
                         <td>{{ booking.booking_date }}</td>
-
-                        <td>
-
+                        <td class="text-end">
                             {% if booking.booking_status == "Completed" %}
-
-                                <span class="badge bg-success">
-                                    Completed
-                                </span>
-
+                                <span class="badge badge-completed">Completed</span>
                             {% elif booking.booking_status == "Cancelled" %}
-
-                                <span class="badge bg-danger">
-                                    Cancelled
-                                </span>
-
+                                <span class="badge badge-closed">Cancelled</span>
                             {% elif booking.booking_status == "Booked" and booking.trek.status in ["Open", "Ongoing"] %}
-
-                                <span class="badge bg-primary">
-                                    Booked
-                                </span>
-
+                                <span class="badge badge-ongoing">Booked</span>
                             {% elif booking.booking_status == "Booked" %}
-
-                                <span class="badge bg-secondary">
-                                    {{ booking.trek.status }}
-                                </span>
-
+                                <span class="badge bg-secondary">{{ booking.trek.status }}</span>
                             {% else %}
-
-                                <span class="badge bg-secondary">
-                                    {{ booking.booking_status }}
-                                </span>
-
+                                <span class="badge bg-secondary">{{ booking.booking_status }}</span>
                             {% endif %}
-
                         </td>
-
                     </tr>
-
                 {% else %}
-
                     <tr>
-
-                        <td colspan="4" class="text-center">
+                        <td colspan="4" class="text-center py-4 text-muted">
                             No trekking history available.
                         </td>
-
                     </tr>
-
                 {% endfor %}
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
-
 </div>
 
 {% endblock %}

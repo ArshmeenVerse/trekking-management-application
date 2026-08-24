@@ -1,80 +1,99 @@
 {% extends "base.html" %}
 
 {% block title %}
-Staff Dashboard
+Staff Dashboard - Trekking Management
 {% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-    <h2 class="mb-0">
-        Staff Dashboard
-    </h2>
-
+<div class="page-header">
+    <div>
+        <h2 class="page-title">
+            Staff Dashboard
+        </h2>
+        <p class="text-muted mb-0 small">Manage your assigned treks, review participants, and update trek progress.</p>
+    </div>
+    <div>
+        <a href="{{ url_for('staff.view_assigned_treks') }}" class="btn btn-primary">
+            <i class="bi bi-signpost-2"></i> My Treks
+        </a>
+    </div>
 </div>
 
-
-
-
-<div class="row mb-4">
-
-    <div class="col-md-4 mb-3">
-
-        <div class="card shadow-sm text-center">
-
-            <div class="card-body">
-
-                <h5>Assigned Treks</h5>
-
-                <h2 class="text-primary">
-                    {{ total_assigned }}
-                </h2>
-
+<!-- KPI Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-signpost-split"></i>
             </div>
-
+            <div>
+                <div class="stat-value">{{ total_assigned }}</div>
+                <div class="stat-label">Assigned Treks</div>
+            </div>
         </div>
-
     </div>
 
-
-    <div class="col-md-4 mb-3">
-
-        <div class="card shadow-sm text-center">
-
-            <div class="card-body">
-
-                <h5>Total Participants</h5>
-
-                <h2 class="text-primary">
-                    {{ total_participants }}
-                </h2>
-
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-icon icon-sky">
+                <i class="bi bi-people"></i>
             </div>
-
+            <div>
+                <div class="stat-value">{{ total_participants }}</div>
+                <div class="stat-label">Total Participants</div>
+            </div>
         </div>
-
     </div>
 
-
-    <div class="col-md-4 mb-3">
-
-        <div class="card shadow-sm text-center">
-
-            <div class="card-body">
-
-                <h5>Open Treks</h5>
-
-                <h2 class="text-primary">
-                    {{ total_open }}
-                </h2>
-
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #ecfdf5; color: #059669;">
+                <i class="bi bi-door-open"></i>
             </div>
-
+            <div>
+                <div class="stat-value">{{ total_open }}</div>
+                <div class="stat-label">Open Treks</div>
+            </div>
         </div>
+    </div>
+</div>
 
+<!-- Shortcuts -->
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card card-hoverable h-100">
+            <div class="card-body d-flex flex-column p-4">
+                <div class="feature-icon mb-3">
+                    <i class="bi bi-map"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Assigned Treks</h5>
+                <p class="text-muted small mb-4">
+                    View upcoming treks assigned to you. Manage available slots, advance status, and view participant list.
+                </p>
+                <a href="{{ url_for('staff.view_assigned_treks') }}" class="btn btn-outline-primary mt-auto">
+                    View Assigned Treks
+                </a>
+            </div>
+        </div>
     </div>
 
+    <div class="col-md-6">
+        <div class="card card-hoverable h-100">
+            <div class="card-body d-flex flex-column p-4">
+                <div class="feature-icon mb-3" style="background: var(--accent-sky-light); color: var(--accent-sky);">
+                    <i class="bi bi-person"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Staff Profile</h5>
+                <p class="text-muted small mb-4">
+                    Keep your contact details, phone number, and account information up to date.
+                </p>
+                <a href="{{ url_for('staff.profile') }}" class="btn btn-outline-primary mt-auto">
+                    Edit Profile
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

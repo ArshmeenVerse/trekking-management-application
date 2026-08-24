@@ -1,93 +1,71 @@
 {% extends "base.html" %}
 
 {% block title %}
-My Profile
+My Profile - Trekking Management
 {% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-    <h2 class="mb-0">
-        My Profile
-    </h2>
-
-    <a href="{{ url_for('staff.staff_dashboard') }}"
-       class="btn btn-outline-secondary">
-        Dashboard
-    </a>
-
+<div class="page-header">
+    <div>
+        <h2 class="page-title">
+            My Profile
+        </h2>
+        <p class="text-muted mb-0 small">Update your staff account information.</p>
+    </div>
+    <div>
+        <a href="{{ url_for('staff.staff_dashboard') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Dashboard
+        </a>
+    </div>
 </div>
 
-<div class="card shadow-sm">
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <span class="fw-bold">Update Profile</span>
+            </div>
 
-    <div class="card-header bg-primary text-white">
+            <div class="card-body p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            value="{{ user.name }}"
+                            required>
+                    </div>
 
-        <h5 class="mb-0">
-            Update Profile
-        </h5>
+                    <div class="mb-3">
+                        <label class="form-label">Email Address</label>
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            value="{{ user.email }}"
+                            required>
+                    </div>
 
+                    <div class="mb-4">
+                        <label class="form-label">Phone Number</label>
+                        <input
+                            type="text"
+                            name="phone"
+                            class="form-control"
+                            value="{{ user.phone }}"
+                            required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Update Profile
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="card-body">
-
-        <form method="POST">
-
-            <div class="mb-3">
-
-                <label class="form-label">
-                    Name
-                </label>
-
-                <input
-                    type="text"
-                    name="name"
-                    class="form-control"
-                    value="{{ user.name }}"
-                    required>
-
-            </div>
-
-            <div class="mb-3">
-
-                <label class="form-label">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    name="email"
-                    class="form-control"
-                    value="{{ user.email }}"
-                    required>
-
-            </div>
-
-            <div class="mb-4">
-
-                <label class="form-label">
-                    Phone Number
-                </label>
-
-                <input
-                    type="text"
-                    name="phone"
-                    class="form-control"
-                    value="{{ user.phone }}"
-                    required>
-
-            </div>
-
-            <button
-                type="submit"
-                class="btn btn-primary">
-                Update Profile
-            </button>
-
-        </form>
-
-    </div>
-
 </div>
 
 {% endblock %}

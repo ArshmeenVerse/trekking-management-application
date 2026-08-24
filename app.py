@@ -6,10 +6,12 @@ from routes.admin import admin_bp
 from routes.staff import staff_bp
 from routes.user import user_bp
 
+import os
+
 app = Flask(__name__)
 
-app.secret_key = "my-super-secret-key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.secret_key = os.environ.get("SECRET_KEY", "my-super-secret-key")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///database.db")
 
 db.init_app(app)
 
@@ -41,4 +43,4 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
