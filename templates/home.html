@@ -10,50 +10,46 @@ Trekking Management Application
 <div class="hero-aesthetic">
     <div class="row align-items-center g-5">
         <div class="col-lg-7">
-            <div class="hero-pulse-badge">
-                <span class="pulse-dot"></span>
-                <span>Open Season 2026 &bull; Verified Expeditions</span>
-            </div>
-
             <h1 class="hero-heading">
                 Discover, Book & Manage <span class="text-gradient">Mountain Treks</span>
             </h1>
 
             <p class="hero-subtitle">
-                Explore majestic trails, reserve verified trekking slots, and seamlessly coordinate expedition logistics between adventurers, guides, and organizers.
+                Explore majestic trails, reserve verified trekking slots, and seamlessly coordinate expedition logistics
+                between adventurers, guides, and organizers.
             </p>
 
             <div class="d-flex flex-wrap gap-3 mb-4">
                 {% if session.get("user_id") %}
-                    {% if session.get("user_role") == "admin" %}
-                        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-primary btn-lg">
-                            <i class="bi bi-speedometer2"></i> Admin Dashboard
-                        </a>
-                        <a href="{{ url_for('admin.create_trek') }}" class="btn btn-outline-secondary btn-lg">
-                            <i class="bi bi-plus-circle"></i> Create Trek
-                        </a>
-                    {% elif session.get("user_role") == "staff" %}
-                        <a href="{{ url_for('staff.staff_dashboard') }}" class="btn btn-primary btn-lg">
-                            <i class="bi bi-speedometer2"></i> Staff Portal
-                        </a>
-                        <a href="{{ url_for('staff.view_assigned_treks') }}" class="btn btn-outline-secondary btn-lg">
-                            <i class="bi bi-signpost-2"></i> My Treks
-                        </a>
-                    {% else %}
-                        <a href="{{ url_for('user.view_treks') }}" class="btn btn-primary btn-lg">
-                            <i class="bi bi-compass"></i> Explore All Treks
-                        </a>
-                        <a href="{{ url_for('user.view_my_bookings') }}" class="btn btn-outline-secondary btn-lg">
-                            <i class="bi bi-calendar-check"></i> My Bookings
-                        </a>
-                    {% endif %}
+                {% if session.get("user_role") == "admin" %}
+                <a href="{{ url_for('admin.dashboard') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-speedometer2"></i> Admin Dashboard
+                </a>
+                <a href="{{ url_for('admin.create_trek') }}" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-plus-circle"></i> Create Trek
+                </a>
+                {% elif session.get("user_role") == "staff" %}
+                <a href="{{ url_for('staff.staff_dashboard') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-speedometer2"></i> Staff Portal
+                </a>
+                <a href="{{ url_for('staff.view_assigned_treks') }}" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-signpost-2"></i> My Treks
+                </a>
                 {% else %}
-                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
-                        <i class="bi bi-backpack"></i> Start Exploring
-                    </a>
-                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-lg">
-                        <i class="bi bi-box-arrow-in-right"></i> Member Login
-                    </a>
+                <a href="{{ url_for('user.view_treks') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-compass"></i> Explore All Treks
+                </a>
+                <a href="{{ url_for('user.view_my_bookings') }}" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-calendar-check"></i> My Bookings
+                </a>
+                {% endif %}
+                {% else %}
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-backpack"></i> Start Exploring
+                </a>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-box-arrow-in-right"></i> Member Login
+                </a>
                 {% endif %}
             </div>
 
@@ -81,9 +77,8 @@ Trekking Management Application
                     <span class="text-warning">★</span> 4.9/5 Explorer Rating
                 </div>
 
-                <img src="{{ url_for('static', filename='images/trek.jpg') }}"
-                     class="hero-img"
-                     alt="Scenic mountain trek">
+                <img src="{{ url_for('static', filename='images/trek.jpg') }}" class="hero-img"
+                    alt="Scenic mountain trek">
 
                 <!-- Floating bottom card -->
                 <div class="hero-floating-card">
@@ -124,7 +119,8 @@ Trekking Management Application
             </div>
             <h5 class="fw-bold mb-2">Explore Scenic Treks</h5>
             <p class="text-muted small mb-0">
-                Browse detailed routes with elevation, difficulty classifications (Easy, Moderate, Hard), and real-time open slots.
+                Browse detailed routes with elevation, difficulty classifications (Easy, Moderate, Hard), and real-time
+                open slots.
             </p>
         </div>
     </div>
@@ -136,7 +132,8 @@ Trekking Management Application
             </div>
             <h5 class="fw-bold mb-2">Easy Slot Reservations</h5>
             <p class="text-muted small mb-0">
-                Reserve your spot instantly with automatic slot deduction, instant booking history, and cancellation management.
+                Reserve your spot instantly with automatic slot deduction, instant booking history, and cancellation
+                management.
             </p>
         </div>
     </div>
@@ -148,7 +145,8 @@ Trekking Management Application
             </div>
             <h5 class="fw-bold mb-2">Staff & Expedition Control</h5>
             <p class="text-muted small mb-0">
-                Admins and guide staff manage trek progressions, participant rosters, guide approvals, and user accounts.
+                Admins and guide staff manage trek progressions, participant rosters, guide approvals, and user
+                accounts.
             </p>
         </div>
     </div>
@@ -167,10 +165,12 @@ Trekking Management Application
                     ★★★★★
                 </div>
                 <p class="small text-muted mb-3">
-                    "The booking process was seamless and finding treks suited for beginners was super clear. Everything went smoothly!"
+                    "The booking process was seamless and finding treks suited for beginners was super clear. Everything
+                    went smoothly!"
                 </p>
                 <div class="d-flex align-items-center gap-2">
-                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 32px; height: 32px;">
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold small"
+                        style="width: 32px; height: 32px;">
                         A
                     </div>
                     <div>
@@ -187,10 +187,12 @@ Trekking Management Application
                     ★★★★★
                 </div>
                 <p class="small text-muted mb-3">
-                    "Managing participant lists and updating trek status during the trek was effortless from the staff dashboard."
+                    "Managing participant lists and updating trek status during the trek was effortless from the staff
+                    dashboard."
                 </p>
                 <div class="d-flex align-items-center gap-2">
-                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 32px; height: 32px;">
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold small"
+                        style="width: 32px; height: 32px;">
                         R
                     </div>
                     <div>
@@ -207,10 +209,12 @@ Trekking Management Application
                     ★★★★★
                 </div>
                 <p class="small text-muted mb-3">
-                    "Clean, modern interface without unnecessary clutter. Tracked all my upcoming and past treks in one place."
+                    "Clean, modern interface without unnecessary clutter. Tracked all my upcoming and past treks in one
+                    place."
                 </p>
                 <div class="d-flex align-items-center gap-2">
-                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold small" style="width: 32px; height: 32px;">
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold small"
+                        style="width: 32px; height: 32px;">
                         P
                     </div>
                     <div>
